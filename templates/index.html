@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>창의키움</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+
+<body style="background-image: url(/static/cb.jpg);">
+</body>
+
+
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+                <h1>제빵기능사를 돕기 위한 웹사이트</h1>
+        </div>
+
+        <div class="main">
+            <div class="card">
+
+                <p>
+
+                    <div class="box">
+                        <h1 style="font-size: 20px; ">재료를 각 하나씩 선택해주세요</h1>
+                    </div>
+
+                
+                    <style>.box {
+                        width: 300px;
+                        height: 40px;
+                        padding: 1px;
+                        background-color: rgba(165, 159, 156, 0.7);
+                        border: 1px solid rgb(105, 101, 99);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    </style>
+
+
+                    <form method="POST">
+
+                    <h3>공통 재료</h3>
+
+                        <input type="radio" id="butter" name="ingredient1" value="버터">
+                        <label for="butter">버터</label>
+
+                        <input type="radio" id="egg" name="ingredient1" value="달걀">
+                        <label for="egg">달걀</label>
+
+                        <input type="radio" id="gravity" name="ingredient1" value="중력분">
+                        <label for="gravity">중력분</label>
+
+                        <input type="radio" id="pm" name="ingredient1" value="분유">
+                        <label for="pm">분유</label>
+
+                        <input type="radio" id="margarine" name="ingredient1" value="마가린">
+                        <label for="margarine">마가린</label>
+
+                        <input type="radio" id="e1" name="ingredient1" value="없음">
+                        <label for="e1">없음</label>
+
+                        <div>
+                        <h3>포인트 재료</h3>
+
+                        <input type="radio" id="rose" name="ingredient2" value="건조로즈마리">
+                        <label for="rose">건조로즈마리</label>
+
+                        <input type="radio" id="peanut" name="ingredient2" value="땅콩버터">
+                        <label for="peanut">땅콩버터</label>
+
+                        <input type="radio" id="bean" name="ingredient2" value="통팥앙금">
+                        <label for="bean">통팥앙금</label>
+
+                        <input type="radio" id="cream" name="ingredient2" value="커스터드크림">
+                        <label for="cream">커스터드크림</label>
+
+                        <input type="radio" id="ho" name="ingredient2" value="호밀가루">
+                        <label for="ho">호밀가루</label>
+
+                        </div>
+
+                        <div>
+
+                        <input type="radio" id="tong" name="ingredient2" value="통밀가루">
+                        <label for="tong">통밀가루</label>
+
+                        <input type="radio" id="oil" name="ingredient2" value="식용유">
+                        <label for="oil">식용유</label>
+
+                        <input type="radio" id="gae" name="ingredient2" value="계피가루">
+                        <label for="gae">계피가루</label>
+
+                        <input type="radio" id="vanilla" name="ingredient2" value="바닐라향">
+                        <label for="vanilla">바닐라향</label>
+
+                        <input type="radio" id="sausage" name="ingredient2" value="소시지">
+                        <label for="sausage">소시지</label>
+
+                        </div>
+
+                        <input type="radio" id="milk" name="ingredient2" value="우유">
+                        <label for="milk">우유</label>
+
+                        <input type="radio" id="rice" name="ingredient2" value="쌀가루">
+                        <label for="rice">쌀가루</label>
+
+                        <input type="radio" id="corn" name="ingredient2" value="옥수수분말">
+                        <label for="corn">옥수수분말</label>
+
+                        <input type="radio" id="dice" name="ingredient2" value="밤다이스">
+                        <label for="dice">밤다이스</label>
+
+                        <input type="radio" id="e2" name="ingredient2" value="없음">
+                        <label for="e2">없음</label>
+
+
+                        <br><br>
+
+                        <button type="submit" name="form_type" value="bread">전송</button>
+
+                        </form>
+
+
+                        {% if answer2 %}
+                            <hr>
+                            <div style="margin-top: 20px;">
+                                <p><strong>결과:</strong></p>
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                    {% for bread in answer2 %}
+                                        <form method="POST" style="display: inline;">
+                                            <input type="hidden" name="bread_name" value="{{ bread }}">
+                                            <button type="submit" name="form_type" value="view_recipe" class="recipe-btn">
+                                                {{ bread }} (필요한 재료 보기)
+                                            </button>
+                                        </form>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if recipe_content and recipe_content != "상세 레시피 정보가 없습니다." %}
+                            <div style="background:#f4f4f4; padding:20px; border-radius:10px; margin-top:15px; border:1px solid #ccc;">
+                                <h3 style="margin-top:0; color: #2c3e50;">[{{ selected_bread }}] 필요한 재료</h3>
+                                <p style="white-space: pre-wrap; font-size: 16px;">{{ recipe_content }}</p>
+                                <a href="/" style="display: inline-block; margin-top: 10px; text-decoration: none; color: #666; background: #eee; padding: 5px 10px; border-radius: 3px;">닫기</a>
+                            </div>
+                        {% endif %}
+
+                        <style>
+                        .recipe-btn {
+                            background-color: #2c3e50;
+                            color: white;
+                            padding: 12px 24px;
+                            border: none;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            font-size: 18px;
+                            font-weight: bold;
+                            transition: background 0.3s;
+                        }
+                        .recipe-btn:hover {
+                            background-color: #3e5871;
+                        }
+                        </style>
+                </p>
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    <div class="boc">
+                        <h1 style="font-size: 20px; ">질문</h1>
+                    </div>
+
+                
+                    <style>.boc {
+                        width: 80px;
+                        height: 40px;
+                        padding: 1px;
+                        background-color: rgba(165, 159, 156, 0.7);
+                        border: 1px solid rgb(105, 101, 99);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    </style>
+
+                    <div style="height: 30px;"></div>
+
+                    <form method="POST">
+
+                        <input type="text" name="question" style="width: 300px; height: 30px; font-size: 15px;">
+
+                        <button type="submit" name="form_type" value="chat"; style="font-size: 15px;">전송</button>
+
+                    </form>
+                
+                    <h2>{{ answer1 }}</h2>
+
+
+                    <style>
+
+                        input[type="radio"] {
+                            display: none;
+                        }
+
+                        label {
+                            display: inline-block; padding: 5px 10px; margin: 3px; background-color: rgb(192, 184, 180);
+                            border-radius: 1px; cursor: pointer; font-size: 15px;
+                        }
+
+                        input[type="radio"]:checked + label {
+                            background-color: rgb(48, 43, 39); color: rgb(255, 255, 255);
+                        }
+
+                    </style>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
